@@ -8,9 +8,9 @@ server.connection({
 
 server.route({
   method: 'GET',
-  path: '/',
+  path: '/{name}',
   handler: function (request, reply) {
-    reply('Hello')
+    reply('Hello ' + request.params.name)
   }
 })
 
