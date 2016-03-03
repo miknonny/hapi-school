@@ -1,4 +1,6 @@
 var Hapi = require('hapi');
+var Inert = require('inert');
+
 var server = new Hapi.Server();
 
 server.connection({
@@ -6,11 +8,15 @@ server.connection({
   port: Number(process.argv[2] || 8080)
 })
 
+// Plugin to server static files.
+server.register(Inert, function (err) {
+  if (err) throw err
+})
 server.route({
   method: 'GET',
-  path: '/{name}',
-  handler: function (request, reply) {
-    reply('Hello ' + request.params.name)
+  path: '/',
+  handler: {
+    file: __dirname + '/public/index.html'
   }
 })
 
