@@ -1,5 +1,6 @@
 var Hapi = require('hapi');
 var Inert = require('inert');
+var Path = require('path');
 
 var server = new Hapi.Server();
 
@@ -12,11 +13,12 @@ server.connection({
 server.register(Inert, function (err) {
   if (err) throw err
 })
+
 server.route({
   method: 'GET',
-  path: '/',
-  handler: {
-    file: __dirname + '/public/index.html'
+  path: '/foo/bar/baz/{filename}',
+  handler: function (request, reply) {
+    reply.file(Path.join(__dirname, '/public/' + request.params.filename))
   }
 })
 
