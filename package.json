@@ -9,7 +9,9 @@
   "author": "mbah michael <miknonny@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "handlebars": "4.0.5",
     "hapi": "13.0.0",
-    "inert": "3.2.0"
+    "inert": "3.2.0",
+    "vision": "4.0.1"
   }
 }
