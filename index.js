@@ -1,7 +1,5 @@
 var Hapi = require('hapi');
-var Inert = require('inert');
-var Path = require('path');
-var Vision = require('vision')
+var H2o2 = require('h2o2')
 
 var server = new Hapi.Server();
 
@@ -10,13 +8,7 @@ server.connection({
   port: Number(process.argv[2] || 8080)
 })
 
-// Plugin to server static files.
-server.register(Inert, function (err) {
-  if (err) throw err
-})
-
-// Plugin for rendering templates
-server.register(Vision, function (err) {
+server.register(H2o2, (err) => {
   if (err) throw err
 })
 
@@ -24,20 +16,16 @@ server.register(Vision, function (err) {
 // in the route path
 server.route({
   method: 'GET',
-  path: '/',
+  path: '/proxy',
   // Define template to be used to generate response.
   handler: {
-    view: "index.html"
+    proxy: {
+      host: '127.0.0.1',
+      port: 65535
+    }
   }
 })
 
-// This is used to configure templates used on the server.
-server.views({
-  engines: {
-    html: require('handlebars')
-  },
-  path: Path.join(__dirname, 'templates')
-})
 
 server.start(function () {
   console.log('server running at: ', server.info.uri)
